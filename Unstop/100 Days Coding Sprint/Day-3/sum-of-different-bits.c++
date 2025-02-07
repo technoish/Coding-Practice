@@ -8,10 +8,10 @@ long long int compareBits(string a, string b) {
     int m = b.length();
     long long int totalDiffBits = 0;
 
-    for (int i = 0; i <= m - n; ++i) {
+    for (int i = 0; i <= m - n; i++) {
         int diffBits = 0;
         string sub = b.substr(i, n);
-        for (int j = 0; j < n; ++j) {
+        for (int j = 0; j < n; j++) {
             if (a[j] != sub[j]) {
                 diffBits++;
             }
