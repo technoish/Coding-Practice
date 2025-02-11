@@ -2,24 +2,23 @@
 #include <vector>
 #include <numeric>
 
-int maximum(const std::vector<int>& arr) {
+long long maximum(const std::vector<int>& arr) {
     int n = arr.size();
-    long long max_product = 0;
+    if (n == 1) return 0; 
+
+    std::vector<long long> prefix_sum(n + 1, 0);
 
     for (int i = 0; i < n; ++i) {
-        long long sum1 = 0;
-        long long sum2 = 0;
+        prefix_sum[i + 1] = prefix_sum[i] + arr[i];
+    }
 
-        if (i >= 0) {
-            sum1 = std::accumulate(arr.begin(), arr.begin() + i + 1, 0LL);
-        }
+    long long max_product = 0;
 
-        if (i < n - 1) {
-            sum2 = std::accumulate(arr.begin() + i + 1, arr.end(), 0LL);
-        }
-        
-        long long current_product = sum1 * sum2;
-        max_product = std::max(max_product, current_product);
+    for (int i = 0; i < n - 1; i++) {
+        long long sum1 = prefix_sum[i + 1];
+        long long sum2 = prefix_sum[n] - sum1;
+
+        max_product = std::max(max_product, sum1 * sum2);
     }
 
     return max_product;
@@ -29,12 +28,10 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> arr(n);
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; i++) {
         std::cin >> arr[i];
     }
 
-    int result = maximum(arr);
-    std::cout << result << std::endl;
-
+    std::cout << maximum(arr) << std::endl;
     return 0;
 }
